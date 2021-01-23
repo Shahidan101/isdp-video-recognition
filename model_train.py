@@ -7,6 +7,7 @@ import seaborn as sns
 import tensorflow as tf 
 import platform
 import os
+import sys
 
 # Clear terminal window
 os.system("cls")
