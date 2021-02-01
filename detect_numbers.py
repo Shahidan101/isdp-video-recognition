@@ -65,14 +65,17 @@ def numberRecognition(image):
 			stringy = stringy.strip()
 			stringy = stringy.replace('\n', '')
 			for letters in stringy:
-				if letters.isnumeric():
-					print(letters)
-		# 			empty_list.append(letters)
+				if (letters.isnumeric()) and (letters not in empty_list):
+					empty_list.append(letters)
 
-		# print(empty_list)
-		# empty_list.clear()
+		for things in empty_list:
+			print(things, end=",")
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'My First Project-de6cd4cc0efc.json'
+		print()
+
+		empty_list.clear()
+
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'isdp-video-processing-5dffca074c44.json'
 SOURCE_PATH = 'C:/Users/shahi/Documents/git/isdp-video-recognition/'
 
 cam = cv2.VideoCapture(0)
@@ -86,5 +89,6 @@ while True:
 
 	key = cv2.waitKey(1)
 
+	# Press ESC key to terminate loop
 	if key == 27:
 		break
