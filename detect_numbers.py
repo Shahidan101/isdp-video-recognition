@@ -75,7 +75,7 @@ def numberRecognition(image):
 
 		empty_list.clear()
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'isdp-video-processing-5dffca074c44.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'isdp-video-processing-6141e3fdd28a.json'
 SOURCE_PATH = 'C:/Users/shahi/Documents/git/isdp-video-recognition/'
 
 cam = cv2.VideoCapture(0)
