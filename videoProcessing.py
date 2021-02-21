@@ -142,4 +142,42 @@ def colourDetection():
 		if cv2.waitKey(1) == ord('q'):
 			break
 
-circleDetection()
+def numberDetection():
+	# Import necessary packages
+	import cv2
+	import numpy as np
+	import matplotlib.pyplot as plt
+
+	# Functions for showing Canny Threshold Values
+	def showValue(x):
+		return None
+
+	# Load the image
+	img = cv2.VideoCapture(0)
+
+	# Add trackbar
+	cv2.namedWindow('Canny')
+	cv2.createTrackbar('alphaVal', 'Canny', 0, 10, showValue)
+	cv2.createTrackbar('betaVal', 'Canny', 0, 1000, showValue)
+
+	while True:
+		# Reads frame from video capture
+		check, image = img.read()
+
+		# minVal = cv2.getTrackbarPos('minVal', 'Canny')
+		# maxVal = cv2.getTrackbarPos('maxVal', 'Canny')
+
+		alphaVal = cv2.getTrackbarPos('alphaVal', 'Canny')
+		betaVal = cv2.getTrackbarPos('betaVal', 'Canny')
+
+		# 100, 100 for the threshold works quite well
+		# canny = cv2.Canny(image, minVal, maxVal)
+		image = cv2.addWeighted(image, alphaVal, np.zeros(image.shape, image.dtype), 0, betaVal)
+		canny = cv2.Canny(image, 100, 100)
+
+		cv2.imshow("Canny", canny)
+		cv2.imshow("Image", image)
+		if cv2.waitKey(1) == ord('q'):
+			break
+
+numberDetection()
