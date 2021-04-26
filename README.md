@@ -1,1 +1,0 @@
-# isdp-video-recognition
