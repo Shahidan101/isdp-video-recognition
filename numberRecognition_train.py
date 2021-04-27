@@ -10,8 +10,6 @@ from keras.layers import Dense
 from keras.optimizers import Adam
 from keras.layers import Dropout,Flatten
 from keras.layers.convolutional import Conv2D,MaxPooling2D
-import pickle
-import dill
  
 ################ PARAMETERS ########################
 path = 'myData'

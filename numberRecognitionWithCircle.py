@@ -1,6 +1,5 @@
 import numpy as np
 import cv2
-import pickle
 import tensorflow as tf
 import matplotlib.pyplot as plt 
 import time
@@ -63,12 +62,15 @@ while True:
             # Draw outer circle in green
             cv2.circle(imgOriginal, (i[0], i[1]), int(i[2]), (0, 255, 0), 2)
 
+            # Identify the boundary coordinates of the circle
+            # Since the boundaries could be in decimal, the ceil and floor of the values are obtained
             rectX_low = int(i[0]) - int(i[2])
             rectY_low = int(i[1]) - int(i[2])
 
             rectX_high = int(i[0]) + 1 - int(i[2])
             rectY_high = int(i[1]) + 1 - int(i[2])
 
+            # Crop the frame according to the boundaries obtained earlier
             crop_img = imgOriginal[rectY_low:(rectY_high + 2 * r), rectX_low:(rectX_high + 2 * r)]
 
             # Draw center of circle in red
@@ -80,8 +82,10 @@ while True:
         # Add circle count into list, then do averaging to find most likely number
         circleList.append(co)
 
+        # Obtain the height and width of the cropped image
         crop_height, crop_width, something = crop_img.shape
 
+        # Setting the limits of how small a cropped image is allowed to be
         if (crop_height > 100) and (crop_width > 100):
             img = np.asarray(crop_img)
             # print(img.shape)
@@ -97,19 +101,40 @@ while True:
             probVal= np.amax(predictions)
             # print(classIndex,probVal)
 
-    # Print out outcome
+    # DISPLAY OUTCOME
+    # This list stores the number of circles detected by the Hough Transform
+    # For each frame, the number of circles is appended into the list
+    # By checking the length of the list, we can figure out the duration of the circle/sphere being in view of the camera
+
+    # Setting the length limit to be 20
     if len(circleList) > 20:
         shape = "Sphere"
+
         circle_flag = 1
+        # Reset the list for next run of circle/sphere recognition
         circleList.clear()
 
+    # Threshold of minimum probability value for the prediction
     if probVal> threshold:
+        # Checks if the 'guess' variable has the same value as the predicted digit
+        # What this mechanism does is ensure that the predicted digits for each frame is the same consecutively
+        # For example, if the first frame predicts a digit of '1'
+        # When the object with a digit '1' is in view of the camera for a duration, the next frames and their predictions
+        # should be '1' as well
+        # When the object changes with a different digit, this digit tracking is reset, thus resetting the 'duration tracker'
+
         if classIndex == guess:
+            # If the values are the same, append the predicted value into a list
             checker.append(classIndex)
         else:
+            # Set the 'guess' variable as the predicted digit
             guess = classIndex
 
+        # Checking the length of the list (indicates the duration) and confirmed that a circle/sphere is in view
         if len(checker) > 15 and circle_flag == 1:
+            # From the list of predicted values, select the most frequently appeared digit
+            # At times a small change in ambient light or orientation may cause a single frame to predict a different digit
+            # By selecting the most frequently appeared digit, it yields the most likely digit displayed on the object
             largest = checker.count(list(set(checker))[0])
             largestitem = list(set(checker))[0]
 
@@ -118,16 +143,21 @@ while True:
                     largest = checker.count(list(set(checker))[i])
                     largestitem = list(set(checker))[i]
 
+            # After obtaining the most frequently appeared digit, set this is as the predicted value
             classIndex = largestitem
 
+            # Display the object type in terms of the form and the digit printed on the object
             print("Mineral Type:", shape)
             print("Number on Mineral:", classIndex)
             print()
+            # Reset the flag indicating the object is a circle/sphere and clear the predicted values list
             circle_flag = 0
             checker.clear()
 
+        # Show the predicted digit and probability value in the camera feed
         text1 = "Predicted: " + str(classIndex)
         text2 = "Probability: " + str(probVal)
+        # Display the text on the original frame (directly recorded from camera)
         cv2.putText(imgOriginal,text1,
                     (50,430),cv2.FONT_HERSHEY_DUPLEX,
                     1,(255,0,0),1)
@@ -135,6 +165,7 @@ while True:
                     (50,460),cv2.FONT_HERSHEY_DUPLEX,
                     1,(255,0,0),1)
     else:
+        # If the probability value does not exceed the threshold, display NONE for predicted value and probability value
         text1 = "Predicted: NONE"
         text2 = "Probability: NONE"
         cv2.putText(imgOriginal,text1,
@@ -144,9 +175,11 @@ while True:
                     (50,460),cv2.FONT_HERSHEY_DUPLEX,
                     1,(255,0,0),1)
 
+    # Show the original frame
     cv2.imshow("Original Image",imgOriginal)
 
     key = cv2.waitKey(1)
 
+    # Press 'q' to close the program
     if key & 0xFF == ord('q'):
         break

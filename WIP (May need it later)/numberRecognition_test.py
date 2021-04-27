@@ -1,6 +1,5 @@
 import numpy as np
 import cv2
-import pickle
 import tensorflow as tf
 import time
  
