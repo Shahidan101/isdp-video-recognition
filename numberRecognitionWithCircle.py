@@ -28,8 +28,18 @@ model = tf.keras.models.load_model('model_trained.h5')
  
 #### PREPORCESSING FUNCTION
 def preProcessing(img):
-    img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
+    h, s, v = cv2.split(img)
+    
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+    v = clahe.apply(v)
+    
+    img = cv2.merge([h, s, v])
+    img = cv2.cvtColor(img, cv2.COLOR_HSV2RGB)
+    
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img = cv2.equalizeHist(img)
+    
     img = img/255
     return img
 
@@ -49,7 +59,7 @@ while True:
     img_circle = cv2.medianBlur(img_circle, 5)
 
     # Find circles in the grayscale frame using Hough Transform
-    circles = cv2.HoughCircles(image=img_circle, method=cv2.HOUGH_GRADIENT, dp=0.9, minDist=600, param1=110, param2=39, minRadius=100 ,maxRadius=400)
+    circles = cv2.HoughCircles(image=img_circle, method=cv2.HOUGH_GRADIENT, dp=0.9, minDist=600, param1=110, param2=39, minRadius=50 ,maxRadius=400)
 
     if circles is not None:
         # Now draw and show the circles that were detected
@@ -106,8 +116,8 @@ while True:
     # For each frame, the number of circles is appended into the list
     # By checking the length of the list, we can figure out the duration of the circle/sphere being in view of the camera
 
-    # Setting the length limit to be 20
-    if len(circleList) > 20:
+    # Setting the length limit to be 3
+    if len(circleList) > 3:
         shape = "Sphere"
 
         circle_flag = 1
