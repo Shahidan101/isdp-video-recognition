@@ -7,7 +7,8 @@ import time
 ########### PARAMETERS ##############
 width = 640
 height = 480
-threshold = 0.50 # MINIMUM PROBABILITY TO CLASSIFY
+# threshold = 0.50 # MINIMUM PROBABILITY TO CLASSIFY
+threshold = 0
 cameraNo = 0
 #####################################
 
@@ -40,8 +41,39 @@ def preProcessing(img):
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img = cv2.equalizeHist(img)
     
+    img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
+    img = cv2.inRange(img, (0, 0, 0), (70, 70, 70))
+    
     img = img/255
+    
     return img
+
+def preProcessingwhileshowing(img):
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
+    h, s, v = cv2.split(img)
+    
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+    v = clahe.apply(v)
+    
+    img = cv2.merge([h, s, v])
+    img = cv2.cvtColor(img, cv2.COLOR_HSV2RGB)
+    
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img = cv2.equalizeHist(img)
+    
+    cv2.imshow("Before Black Filter",img)
+    
+    img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
+    img = cv2.inRange(img, (0, 0, 0), (70, 70, 70))
+    
+    cv2.imshow("After Black Filter",img)
+    
+    img = img/255
+    
+    return img
+
 
 while True:
     outcome = 0
@@ -98,10 +130,11 @@ while True:
         # Setting the limits of how small a cropped image is allowed to be
         if (crop_height > 100) and (crop_width > 100):
             img = np.asarray(crop_img)
-            # print(img.shape)
+            img = preProcessingwhileshowing(img)
+            
+            img = np.asarray(crop_img)
             img = cv2.resize(img,(32,32))
             img = preProcessing(img)
-            # cv2.imshow("Processsed Image",img)
             img = img.reshape(1,32,32,1)
             #### PREDICT
             classIndex = int(model.predict_classes(img))
