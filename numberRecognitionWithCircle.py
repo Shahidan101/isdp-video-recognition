@@ -33,10 +33,75 @@ def preProcessing(img):
     img = img/255
     return img
 
+#### PREPORCESSING FUNCTION WITH SHOWING
+def newpreProcessing(img):
+    # cv2.imshow("Before Processing", img)
+    image = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    lower = np.array([0,0,0])
+    upper = np.array([179,174,176])
+    mask = cv2.inRange(image, lower, upper)
+
+    mask = 255 - mask
+
+    # cv2.imshow("The Mask", mask)
+
+    cv2.imwrite("eBB2Q.jpg", mask)
+    cv2.imwrite("luraB.jpg", image)
+
+    mask = cv2.imread('eBB2Q.jpg')
+    face = cv2.imread('luraB.jpg')
+
+    _, mask = cv2.threshold(mask, thresh=180, maxval=255, type=cv2.THRESH_BINARY)
+    # copy where we'll assign the new values
+    green_hair = np.copy(face)
+    # boolean indexing and assignment based on mask
+    green_hair[(mask==255).all(-1)] = [255,255,255]
+
+    green_hair = cv2.cvtColor(green_hair, cv2.COLOR_BGR2GRAY)
+
+    # result = cv2.bitwise_and(image, image, mask=mask)
+    
+    # img = cv2.cvtColor(img,cv2.COLOR_HSV2BGR)
+    # img = cv2.equalizeHist(img)
+
+    # img = green_hair
+
+    # img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    # h, s, v = cv2.split(img)
+    
+    # clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+    # v = clahe.apply(v)
+    # img = cv2.merge([h, s, v])
+
+    # img = cv2.cvtColor(img, cv2.COLOR_HSV2RGB)
+    # img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    # # img = cv2.equalizeHist(img)
+
+    # img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+    # img = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
+    # img = cv2.inRange(img, (0, 0, 0), (70, 70, 70))
+
+    # img = 255 - img
+
+    # cv2.imshow("After Processing", green_hair)
+
+    img = green_hair
+
+    img = cv2.equalizeHist(img)
+
+    img = img/255
+
+    return img    
+
 while True:
     outcome = 0
 
     probVal = 0
+
+    # imgOriginal = cv2.imread('red_circle_4_2.jpg')
+    # imgOriginal = cv2.imread('red_circle_1_1.jpg')        This one can't detect the circle
+    # imgOriginal = cv2.imread('red_circle_1_2.jpg')
+    # imgOriginal = cv2.imread('blue_circle_9_21.jpg')
 
     success, imgOriginal = cap.read()
 
@@ -89,9 +154,12 @@ while True:
         if (crop_height > 100) and (crop_width > 100):
             img = np.asarray(crop_img)
             # print(img.shape)
+            img2 = img.copy()
+            img2 = newpreProcessing(img2)
             img = cv2.resize(img,(32,32))
-            img = preProcessing(img)
-            # cv2.imshow("Processsed Image",img)
+            # img = preProcessing(img)
+            img = newpreProcessing(img)
+            cv2.imshow("Processsed Image",img2)
             img = img.reshape(1,32,32,1)
             #### PREDICT
             classIndex = int(model.predict_classes(img))
