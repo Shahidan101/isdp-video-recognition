@@ -101,9 +101,12 @@ while True:
     # imgOriginal = cv2.imread('red_circle_4_2.jpg')
     # imgOriginal = cv2.imread('red_circle_1_1.jpg')        This one can't detect the circle
     # imgOriginal = cv2.imread('red_circle_1_2.jpg')
+    # imgOriginal = cv2.imread('red_circle_1_7.jpg')
+    # imgOriginal = cv2.imread('red_circle_1_14.jpg')
+    imgOriginal = cv2.imread('blue_circle_9_20.jpg')
     # imgOriginal = cv2.imread('blue_circle_9_21.jpg')
 
-    success, imgOriginal = cap.read()
+    # success, imgOriginal = cap.read()
 
     # Converts frame to RGB. More suitable for showing using matplotlib. Assigns to a variable
     img_circle = cv2.cvtColor(imgOriginal, cv2.COLOR_BGR2RGB)
