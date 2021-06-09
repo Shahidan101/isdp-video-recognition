@@ -103,8 +103,9 @@ while True:
     # imgOriginal = cv2.imread('red_circle_1_2.jpg')
     # imgOriginal = cv2.imread('red_circle_1_7.jpg')
     # imgOriginal = cv2.imread('red_circle_1_14.jpg')
-    imgOriginal = cv2.imread('blue_circle_9_20.jpg')
+    # imgOriginal = cv2.imread('blue_circle_9_20.jpg')
     # imgOriginal = cv2.imread('blue_circle_9_21.jpg')
+    imgOriginal = cv2.imread('testImage.jpg')
 
     # success, imgOriginal = cap.read()
 
