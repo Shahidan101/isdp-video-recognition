@@ -6,8 +6,11 @@ def nothing(x):
     pass
 
 # Load in image
-image = cv2.imread('red_circle_4_2.jpg')
-
+# image = cv2.imread('red_circle_4_2.jpg')
+image = cv2.imread('blue_circle_9_20.jpg')
+# image = cv2.imread('testImage.jpg')
+# print(image.shape)
+# image = cv2.resize(image,(320,240))
 # Create a window
 cv2.namedWindow('image')
 
@@ -19,12 +22,17 @@ cv2.createTrackbar('HMax','image',0,179,nothing)
 cv2.createTrackbar('SMax','image',0,255,nothing)
 cv2.createTrackbar('VMax','image',0,255,nothing)
 
-# cv2.createTrackbar('RMin','image',0,255,nothing) # Hue is from 0-179 for Opencv
+# cv2.createTrackbar('RMin','image',0,255,nothing)
 # cv2.createTrackbar('GMin','image',0,255,nothing)
 # cv2.createTrackbar('BMin','image',0,255,nothing)
 # cv2.createTrackbar('RMax','image',0,255,nothing)
 # cv2.createTrackbar('GMax','image',0,255,nothing)
 # cv2.createTrackbar('BMax','image',0,255,nothing)
+
+# Set default value for MIN HSV trackbars.
+cv2.setTrackbarPos('HMin', 'image', 126)
+cv2.setTrackbarPos('SMin', 'image', 67)
+cv2.setTrackbarPos('VMin', 'image', 0)
 
 # Set default value for MAX HSV trackbars.
 cv2.setTrackbarPos('HMax', 'image', 179)
