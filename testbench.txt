@@ -1,0 +1,38 @@
+Image : blue_circle_9_1.jpg
+------------------------------
+AFTER COLOUR DETECTION AND CYLINDER RECOGNITION
+------------------------------
+Colour: BLUE
+Object Type: MINERAL
+Shape: NONE
+Number on Cylinder: 99
+Probability (Cylinder):0
+------------------------------
+AFTER CIRCLE RECOGNITION
+------------------------------
+Colour: BLUE
+Object Type: MINERAL
+Shape: SPHERE
+Number on Circle: 9
+Probability (Circle): 0.9994418
+================================
+   
+Image : blue_circle_9_14.jpg
+------------------------------
+AFTER COLOUR DETECTION AND CYLINDER RECOGNITION
+------------------------------
+Colour: BLUE
+Object Type: MINERAL
+Shape: NONE
+Number on Cylinder: 99
+Probability (Cylinder):0
+------------------------------
+AFTER CIRCLE RECOGNITION
+------------------------------
+Colour: BLUE
+Object Type: MINERAL
+Shape: SPHERE
+Number on Circle: 9
+Probability (Circle): 0.78915614
+================================
+   

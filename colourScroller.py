@@ -2,15 +2,17 @@ import cv2
 import sys
 import numpy as np
 
+cameraNo = 0
+width = 640
+height = 480
+
+cap = cv2.VideoCapture(cameraNo)
+cap.set(3,width)
+cap.set(4,height)
+
 def nothing(x):
     pass
 
-# Load in image
-# image = cv2.imread('red_circle_4_2.jpg')
-image = cv2.imread('blue_circle_9_20.jpg')
-# image = cv2.imread('testImage.jpg')
-# print(image.shape)
-# image = cv2.resize(image,(320,240))
 # Create a window
 cv2.namedWindow('image')
 
@@ -30,12 +32,12 @@ cv2.createTrackbar('VMax','image',0,255,nothing)
 # cv2.createTrackbar('BMax','image',0,255,nothing)
 
 # Set default value for MIN HSV trackbars.
-cv2.setTrackbarPos('HMin', 'image', 126)
-cv2.setTrackbarPos('SMin', 'image', 67)
+cv2.setTrackbarPos('HMin', 'image', 90)
+cv2.setTrackbarPos('SMin', 'image', 29)
 cv2.setTrackbarPos('VMin', 'image', 0)
 
 # Set default value for MAX HSV trackbars.
-cv2.setTrackbarPos('HMax', 'image', 179)
+cv2.setTrackbarPos('HMax', 'image', 138)
 cv2.setTrackbarPos('SMax', 'image', 255)
 cv2.setTrackbarPos('VMax', 'image', 255)
 
@@ -52,10 +54,18 @@ phMin = psMin = pvMin = phMax = psMax = pvMax = 0
 # rMin = gMin = bMin = rMax = gMax = bMax = 0
 # prMin = pgMin = pbMin = prMax = pgMax = pbMax = 0
 
-output = image
-wait_time = 33
+# Load in image
+while True:
 
-while(1):
+    success, image = cap.read()
+    # image = cv2.imread('red_circle_4_2.jpg')
+    # image = cv2.imread('blue_circle_9_20.jpg')
+    # image = cv2.imread('testImage.jpg')
+    # print(image.shape)
+    # image = cv2.resize(image,(320,240))
+    
+    output = image
+    wait_time = 33
 
     # get current positions of all trackbars
     hMin = cv2.getTrackbarPos('HMin','image')
@@ -119,4 +129,4 @@ while(1):
     if cv2.waitKey(wait_time) & 0xFF == ord('q'):
         break
 
-cv2.destroyAllWindows()
+    # cv2.destroyAllWindows()

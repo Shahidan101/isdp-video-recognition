@@ -1,0 +1,22 @@
+Image : blue_circle_9_1.jpg
+------------------------------
+AFTER COLOUR DETECTION AND CYLINDER RECOGNITION
+------------------------------
+TEST FAILED
+------------------------------
+AFTER CIRCLE RECOGNITION
+------------------------------
+TEST PASSED
+================================
+   
+Image : blue_circle_9_14.jpg
+------------------------------
+AFTER COLOUR DETECTION AND CYLINDER RECOGNITION
+------------------------------
+TEST FAILED
+------------------------------
+AFTER CIRCLE RECOGNITION
+------------------------------
+TEST PASSED
+================================
+   
