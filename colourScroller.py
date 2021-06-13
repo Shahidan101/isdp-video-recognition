@@ -2,13 +2,13 @@ import cv2
 import sys
 import numpy as np
 
-cameraNo = 0
+# cameraNo = 0
 width = 640
 height = 480
 
-cap = cv2.VideoCapture(cameraNo)
-cap.set(3,width)
-cap.set(4,height)
+# cap = cv2.VideoCapture(cameraNo)
+# cap.set(3,width)
+# cap.set(4,height)
 
 def nothing(x):
     pass
@@ -32,12 +32,12 @@ cv2.createTrackbar('VMax','image',0,255,nothing)
 # cv2.createTrackbar('BMax','image',0,255,nothing)
 
 # Set default value for MIN HSV trackbars.
-cv2.setTrackbarPos('HMin', 'image', 90)
-cv2.setTrackbarPos('SMin', 'image', 29)
+cv2.setTrackbarPos('HMin', 'image', 50)
+cv2.setTrackbarPos('SMin', 'image', 146)
 cv2.setTrackbarPos('VMin', 'image', 0)
 
 # Set default value for MAX HSV trackbars.
-cv2.setTrackbarPos('HMax', 'image', 138)
+cv2.setTrackbarPos('HMax', 'image', 76)
 cv2.setTrackbarPos('SMax', 'image', 255)
 cv2.setTrackbarPos('VMax', 'image', 255)
 
@@ -57,10 +57,11 @@ phMin = psMin = pvMin = phMax = psMax = pvMax = 0
 # Load in image
 while True:
 
-    success, image = cap.read()
+    # success, image = cap.read()
     # image = cv2.imread('red_circle_4_2.jpg')
     # image = cv2.imread('blue_circle_9_20.jpg')
     # image = cv2.imread('testImage.jpg')
+    image = cv2.imread('images/green_obstacle_99_1.jpg')
     # print(image.shape)
     # image = cv2.resize(image,(320,240))
     

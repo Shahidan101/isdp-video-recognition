@@ -130,9 +130,12 @@ def redFilter(img):
 
 def greenFilter(img):
     image = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    lower = np.array([50,146,0])
+    lower = np.array([32,146,0])
     upper = np.array([76,255,255])
+    # lower = np.array([50,146,0])
+    # upper = np.array([76,255,255])
     mask = cv2.inRange(image, lower, upper)
+    cv2.imshow("Green Mask", mask)
     contours,_ = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE) # not copying here will throw an error
     if len(contours) != 0:
         largest_area = cv2.contourArea(contours[0])
@@ -545,6 +548,7 @@ def imageProcessing(imageObject):
     # --------------- PART OF TESTBENCH ---------------
 
     shapeFlag = 0       # RESET SHAPE FLAG BEFORE CIRCLE DETECTION PART
+    oldObjectType = objectType          # To prevent overwriting at the circle part (TO BE REPAIRED LATER)
 
     # Converts frame to RGB. More suitable for showing using matplotlib. Assigns to a variable
     img_circle = cv2.cvtColor(imgOriginal, cv2.COLOR_BGR2RGB)
@@ -614,7 +618,7 @@ def imageProcessing(imageObject):
             shape = "Sphere"
 
     else:
-        objectType = "NONE"
+        objectType = oldObjectType
 
     # DISPLAY OUTCOME
     # This list stores the number of circles detected by the Hough Transform

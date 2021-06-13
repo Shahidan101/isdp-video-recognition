@@ -52,6 +52,7 @@ imageSkip = [
 "red_cylinder_3_21.jpg"
 ]
 
+speed = 0
 imageCounter = 0                # To do a loop of running all images
 imageContainer = []             # To count the number of images loaded, basically a duration counter
 imageDirPath = os.path.join('images')
@@ -61,7 +62,9 @@ for skips in imageSkip:
     if skips in imageNames:
         imageNames.remove(skips)
 
-os.system("cls")
+imageNames = sorted(imageNames)
+
+# os.system("cls")
 # textfile = open("testbench.txt", "w")
 # textfile.close()
 # textfile = open("testpassfail.txt", "w")
@@ -72,8 +75,8 @@ os.system("cls")
 
 while True:
     imageContainer.append(imageNames[imageCounter])
-    imageContainer.append(imageNames[imageCounter])
     imagePath = os.path.join('images', imageNames[imageCounter])
+    # imagePath = os.path.join('images', 'green_obstacle_99_1.jpg')
     testbench, testpassfail = imageProcessing(imagePath)
     
     # textfile = open("testbench.txt", "a")
@@ -88,7 +91,7 @@ while True:
 
     key = cv2.waitKey(1)
 
-    if len(imageContainer) > 0:        # Change the number to increase or decrease the duration per image
+    if len(imageContainer) > speed:        # Change the number to increase or decrease the duration per image
         imageCounter = imageCounter + 1
         if imageCounter == len(imageNames):
             imageCounter = 0        # Restart the loop
@@ -100,3 +103,9 @@ while True:
     # Press 'q' to close the program
     if key & 0xFF == ord('q'):
         break
+
+    if key & 0xFF == ord('f'):
+        speed = 0
+
+    if key & 0xFF == ord('s'):
+        speed = 5
